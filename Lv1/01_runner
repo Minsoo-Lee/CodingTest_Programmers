@@ -1,0 +1,32 @@
+import java.util.*;
+
+class Solution {
+    public String[] solution(String[] players, String[] callings) {
+        HashMap<String, Integer> keyString = new HashMap<>();
+        HashMap<Integer, String> keyInteger = new HashMap<>();
+        for (int i = 0; i < players.length; i++) {
+            keyString.put(players[i], Integer.valueOf(i));
+            keyInteger.put(Integer.valueOf(i), players[i]);
+        }
+        
+        for (int i = 0; i < callings.length; i++) {
+            swap(keyString, keyInteger, callings[i]);
+        }
+        
+        for (int i = 0; i < players.length; i++) {
+            players[i] = keyInteger.get(i);
+        }
+        return players;
+    }
+    
+    private static void swap(HashMap<String, Integer> keyString, HashMap<Integer, String> keyInteger, String player) {
+        Integer index = keyString.get(player);
+        String tmp = keyInteger.get(index - 1);
+        
+        keyInteger.replace(index, keyInteger.get(index - 1));
+        keyInteger.replace(index - 1, player);
+        
+        keyString.replace(keyInteger.get(index - 1), index - 1);
+        keyString.replace(keyInteger.get(index), index);
+    }
+}
