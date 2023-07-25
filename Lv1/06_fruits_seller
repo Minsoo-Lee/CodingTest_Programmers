@@ -1,0 +1,27 @@
+import java.util.*;
+import java.util.stream.Collectors;
+
+class Solution {
+    public int solution(int k, int m, int[] score) {
+        int answer = 0;
+        List<Integer> list 
+                = Arrays.stream(score)
+                        .boxed()
+                        .collect(Collectors.toList());
+        Collections.sort(list);
+        Collections.reverse(list);
+        List<List<Integer>> sub = new ArrayList<>();
+        for (int i = 0; i < list.size(); i += m) {
+            sub.add(list.subList(i, Math.min(i + m,
+                    list.size())));
+        }
+        
+        for (List<Integer> tmpList : sub) {
+            if (tmpList.size() < m)
+               break;
+            int min = Collections.min(tmpList);
+            answer += (min * m);
+        }
+        return answer;
+    }
+}
