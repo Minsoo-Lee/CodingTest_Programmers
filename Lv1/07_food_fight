@@ -1,0 +1,16 @@
+class Solution {
+    public String solution(int[] foods) {
+        int[] div = new int[foods.length - 1];
+        StringBuilder tmp = new StringBuilder();
+        for (int i = 1; i < foods.length; i++) {
+            div[i - 1] = foods[i] / 2;
+            for (int j = 0; j < div[i - 1]; j++) {
+                tmp.append(String.valueOf(i));
+            }
+        }
+        StringBuilder answer = new StringBuilder(tmp);
+        tmp.reverse();
+        answer.append(String.valueOf(0)).append(tmp);
+        return answer.toString();
+    }
+}
