@@ -1,0 +1,62 @@
+class Solution {
+    public int[] solution(String[] park, String[] routes) {
+        int[] answer = {};
+        char[][] map = new char[park.length][park[0].length()];
+        int index = 0;
+        for (String line : park) {
+            map[index] = line.toCharArray();
+            index++;
+        }
+        int[] now = findStart(park);
+        for (String dir : routes) {
+            char[] tmp = dir.toCharArray();
+            int count = tmp[2] - '0';
+            switch (tmp[0]) {
+                case 'E':
+                    now = move(map, now, 0, 1, count); 
+                    break;
+                case 'W':
+                    now = move(map, now, 0, -1, count);
+                    break;
+                case 'S':
+                    now = move(map, now, 1, 0, count);
+                    break;
+                case 'N':
+                    now = move(map, now, -1, 0, count);
+                    break;
+            }
+            System.out.println();
+        }
+        return now;
+    }
+    
+    public int[] move(char[][] map, int[] now, int x, int y, int count) {
+        int dirX = now[0];
+        int dirY = now[1];
+        for (int i = 0; i < count; i++) {
+            //System.out.println("x = " + dirX + ", y = " + dirY);
+            if (dirX + x < 0 || dirX + x >= map.length || dirY + y < 0 || dirY + y >= map[0].length || map[dirX + x][dirY + y] == 'X') {
+                int[] result = {now[0], now[1]};
+                return result;
+            }
+            if (map[dirX + x][dirY + y] == 'O' || map[dirX + x][dirY + y] == 'S') {
+                dirX += x;
+                dirY += y;
+            }
+        }
+        
+        int[] result = {dirX, dirY};
+        return result;
+    }
+    
+    public int[] findStart(String[] park) {
+        for (int i = 0; i < park.length; i++) {
+            int index = park[i].indexOf('S');
+            if (index > -1) {
+                int[] result = {i, index};
+                return result;
+            }
+        }
+        return null;
+    }
+}

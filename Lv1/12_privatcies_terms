@@ -1,0 +1,54 @@
+import java.util.*;
+
+class Solution {
+    public int[] solution(String today, String[] terms, String[] privacies) {
+        Map<String, Integer> map = new HashMap<>();
+        List<String> priv = new ArrayList<>();
+        for (String term : terms) {
+            String[] tmp = term.split(" ");
+            map.put(tmp[0], Integer.parseInt(tmp[1]));
+        }
+        int index = 1;
+        for (String privacy : privacies) {
+            String[] tmp = privacy.split("[.]| ");
+            int year = Integer.parseInt(tmp[0]);
+            int month = map.get(tmp[3]) + Integer.parseInt(tmp[1]);
+            if (month > 12) {
+                year = year + month / 12;
+                month = ((month ) % 12);
+            }
+            int day = Integer.parseInt(tmp[2]) -1;
+            if (day == 0) {
+                day = 28;
+                month--;
+            }
+            if (month == 0) {
+                    year--;
+                    month = 12;
+                }
+            StringBuilder sb = new StringBuilder();
+            sb.append(year)
+                .append(".")
+                .append(month < 10 ? "0" : "")
+                .append(month)
+                .append(".")
+                .append(day < 10 ? "0" : "")
+                .append(day)
+                .append(" ")
+                .append(index);
+            System.out.println(sb);
+            priv.add(sb.toString());
+            index++;
+        }
+        List<Integer> list = new ArrayList<>();
+        for (String str : priv) {
+            String[] tmp = str.split(" ");
+            if (today.compareTo(tmp[0]) > 0)
+                list.add(Integer.parseInt(tmp[1]));
+        }
+        Collections.sort(list);
+        return list.stream()
+                .mapToInt(i -> i)
+                .toArray();
+    }
+}
